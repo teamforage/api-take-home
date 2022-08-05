@@ -3,6 +3,7 @@
 
 from django.shortcuts import render
 from django.utils import timezone
+from rest_framework import status
 from rest_framework.generics import ListCreateAPIView, RetrieveDestroyAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -42,7 +43,7 @@ class ListCreateOrder(ListCreateAPIView):
     """
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
-    
+
 
 class RetrieveDeleteOrder(RetrieveDestroyAPIView):
     """ Exposes the following routes,
@@ -88,12 +89,19 @@ class CaptureOrder(APIView):
     was not successful.
     """
 
-    def post(self, request, order_id):
+    def post(self, request, id):
         try:
-            order_obj = Order.objects.get(id=order_id) # throws if order_id not found
+            order_obj = Order.objects.get(id=id) # throws if order_id not found
 
             # Find all Payments associated with this Order via /api/payments/
-            payment_queryset = Payment.objects.filter(order__id=order_id)
+            payment_queryset = Payment.objects.filter(order__id=id)
+
+            # Payments must satisfy the order_total
+            total_payment_amount = sum([x.amount for x in payment_queryset])
+            if total_payment_amount != order_obj.order_total:
+                return Response({
+                    "error_message": "Payment total does not match order total for Order with id {}".format(id)
+                }, status=status.HTTP_400_BAD_REQUEST)
 
             potential_errors = []
             for payment in payment_queryset:
@@ -111,10 +119,10 @@ class CaptureOrder(APIView):
             order_obj.save() # write status back to database
 
             return Response(
-                OrderSerializer(order_obj)
+                OrderSerializer(order_obj).data
             )
 
         except Order.DoesNotExist:
             return Response({
-                "error_message": "Unable to find Order with id {}".format(order_id)
-            })
+                "error_message": "Unable to find Order with id {}".format(id)
+            }, status=status.HTTP_404_NOT_FOUND)

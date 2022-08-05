@@ -21,6 +21,7 @@ class OrderSerializer(serializers.ModelSerializer):
             "order_total",
             "status",
             "success_date",
+            # "ebt_total",
         ]
 
 class PaymentSerializer(serializers.ModelSerializer):

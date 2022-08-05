@@ -12,7 +12,7 @@ urlpatterns = [
         name="credit-cards-list-create",
     ),
     path(
-        "credit_cards/<int:id>/",
+        "credit_cards/<int:pk>/",
         views.RetrieveDeleteCreditCard.as_view(),
         name="credit-cards-retrieve-delete",
     ),
@@ -22,7 +22,7 @@ urlpatterns = [
         name="orders-list-create",
     ),
     path(
-        "orders/<int:id>/",
+        "orders/<int:pk>/",
         views.RetrieveDeleteOrder.as_view(),
         name="orders-retrieve-delete",
     ),
@@ -32,7 +32,7 @@ urlpatterns = [
         name="payments-list-create",
     ),
     path(
-        "payments/<int:id>/",
+        "payments/<int:pk>/",
         views.RetrieveDeletePayment.as_view(),
         name="payments-retrieve-delete",
     ),

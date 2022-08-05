@@ -55,7 +55,7 @@ class Order(models.Model):
         choices=ORDER_STATUS_CHOICE, 
         default=TYPE_DRAFT
     )
-    
+
     success_date = models.DateTimeField(
         "Date when an order was successfully charged",
         null=True,
@@ -66,7 +66,7 @@ class Order(models.Model):
     #
     # The amount which can be paid for with SNAP. It's not necessarily true that the
     # entire snap_total will be satisfied with SNAP tender.
-    # snap_total = models.DecimalField(
+    # ebt_total = models.DecimalField(
     #     decimal_places=2, max_digits=12, validators=[MinValueValidator(0)]
     # )
 
