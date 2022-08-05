@@ -59,13 +59,13 @@ The Order has been submitted for processing and the status will be changed from 
 
 ### Required solution
 
-The goal of the exercise is to extend the API to process both credit cards (which are already supported) and EBT cards (which you will implement support for). EBT cards are an entirely separate payment method, which can only be used to pay for certain items such as fruits, vegetables, or dairy products. Other items, such as paper products, are not eligible to paid for with an EBT card. Keeping track of and enforcing EBT eligibility rules will be a key feature of your API changes.
+The goal of the exercise is to extend the API to process both credit cards (which are already supported) and EBT cards (which you will implement support for). EBT cards are an entirely separate payment method, which can only be used to pay for certain items such as fruits, vegetables, or dairy products. Other items, such as paper products, are not eligible to be paid for with an EBT card. Keeping track of and enforcing EBT eligibility rules will be a key feature of your API changes.
 
 There are 4 high level changes you will need to make to this codebase,
 
 1. Create a new model for storing EBT cards in api/models.py.
     - Follow a similar pattern to the existing CreditCard model but accounting for the differences with an EBT card which are,
-        - EBT cards have no expiration. On average, recipients of an EBT card use for 9 months after which the card number is canceled.
+        - EBT cards have no expiration. On average, recipients of an EBT card use it for 9 months, after which the card number is canceled.
         - EBT card numbers can be from 16 to 19 digits in length, depending on which state issued the card.
     - Also create the serializer class, ListCreateAPIView and RetrieveDestroyAPIView corresponding to this model following the pattern of CreditCards. Make sure you expose URLs in api/urls.py to start using your new views.
 2. Allow for the new EBT card model to be passed in the payment_method field of a Payment object.

@@ -11,7 +11,7 @@ def validateMonth(value):
 
 class CreditCard(models.Model):
     number = models.CharField(
-        max_length=255, default="4111111111111111"
+        max_length=17, default="4111111111111111"
     )
     last_4 = models.CharField(max_length=4)
     
@@ -64,8 +64,8 @@ class Order(models.Model):
 
     # UNCOMMENT THIS FIELD TO GET STARTED!
     #
-    # The amount which can be paid for with SNAP. It's not necessarily true that the
-    # entire snap_total will be satisfied with SNAP tender.
+    # The amount which can be paid for with EBT. It's not necessarily true that the
+    # entire ebt_total will be satisfied with EBT tender.
     # ebt_total = models.DecimalField(
     #     decimal_places=2, max_digits=12, validators=[MinValueValidator(0)]
     # )
@@ -100,7 +100,7 @@ class Payment(models.Model):
     status = models.CharField(
         max_length=24, 
         choices=PAYMENT_STATUS_CHOICE, 
-        default=TYPE_REQ_CONF
+        default=TYPE_REQ_CONF,
     )
 
     success_date = models.DateTimeField(
